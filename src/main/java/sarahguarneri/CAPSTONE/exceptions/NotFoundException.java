@@ -10,4 +10,8 @@ public class NotFoundException extends RuntimeException{
     public NotFoundException(int id){
         super("Address with id " + id + " not found");
     }
+
+    public NotFoundException(String message) {
+        super(message);
+    }
 }

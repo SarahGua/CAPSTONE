@@ -25,7 +25,7 @@ public record NewUserDTO(
         String company_email,
         String company_phone_number,
         Long VAT,
-        Long idAddress,
+        Integer idAddress,
         Integer idField
 ) {
 }
