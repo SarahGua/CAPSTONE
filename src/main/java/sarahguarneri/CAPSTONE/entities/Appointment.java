@@ -1,10 +1,16 @@
 package sarahguarneri.CAPSTONE.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
+@Getter
+@Setter
+@ToString
 @Entity
 public class Appointment {
     @Id
