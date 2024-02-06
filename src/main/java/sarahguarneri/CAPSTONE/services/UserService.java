@@ -46,7 +46,6 @@ public class UserService {
         newUser.setEmail(body.email());
         newUser.setPassword(body.password());
         newUser.setPhone_number(body.phone_number());
-        newUser.setRole(Role.valueOf(body.role()));
         newUser.setCompany_name(body.company_name());
         newUser.setCompany_email(body.company_email());
         newUser.setCompany_phone_number(body.company_phone_number());
@@ -83,5 +82,9 @@ public class UserService {
     public void findAndDelete(UUID id){
         User found = this.findById(id);
         userDAO.delete(found);
+    }
+
+    public User findByEmail(String email) throws NotFoundException{
+        return userDAO.findByEmail(email).orElseThrow(() -> new NotFoundException("Utente con email " + email + " non trovata!"));
     }
 }
