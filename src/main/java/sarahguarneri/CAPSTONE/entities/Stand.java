@@ -15,6 +15,7 @@ public class Stand {
     @Id
     @GeneratedValue
     private UUID id;
+    private String dimensions;
     private double cost;
     @OneToOne
     @JoinColumn(name = "user_id")

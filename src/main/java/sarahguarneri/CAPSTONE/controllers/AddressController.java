@@ -26,7 +26,7 @@ public class AddressController {
     }
 
     @GetMapping("/{addressId}")
-    public Address getAddressById(@RequestParam int id){
+    public Address getAddressById(@PathVariable int id){
         return addressService.findById(id);
     }
 
