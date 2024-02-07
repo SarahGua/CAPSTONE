@@ -43,11 +43,13 @@ public class AuthService {
         }
     }
 
+
     public User findByEmail(UserLoginDTO body){
         return userService.findByEmail(body.email());
     }
 
     public User save(NewUserDTO body){
+
         userDAO.findByEmail(body.email()).ifPresent(user -> {
             throw new BadRequestException("L'email " + user.getEmail() + " è già in uso");
         });
@@ -63,10 +65,10 @@ public class AuthService {
         newUser.setCompany_phone_number(body.company_phone_number());
         newUser.setVAT(body.VAT());
 
-        Address address = addressDAO.findById(body.idAddress())
-                .orElseThrow(() -> new NotFoundException("Address not found"));
-
-        newUser.setAddress(address);
+//        Address address = addressDAO.findById(body.idAddress())
+//                .orElseThrow(() -> new NotFoundException("Address not found"));
+//
+//        newUser.setAddress(address);
 
         if(body.role().equalsIgnoreCase("exhibitor")){
             newUser.setRole(Role.EXHIBITOR);

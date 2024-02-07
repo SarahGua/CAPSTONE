@@ -1,12 +1,10 @@
 package sarahguarneri.CAPSTONE.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sarahguarneri.CAPSTONE.entities.User;
 import sarahguarneri.CAPSTONE.exceptions.BadRequestException;
 import sarahguarneri.CAPSTONE.payloads.users.NewUserDTO;
@@ -23,21 +21,15 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/login")
-    public UserLoginResponseDTO logi(@RequestBody UserLoginDTO body){
+    public UserLoginResponseDTO login(@RequestBody UserLoginDTO body){
         String token = authService.authenticationUser(body);
-        User user = authService.findByEmail(body);
+//        User user = authService.findByEmail(body);
 
-        return new UserLoginResponseDTO(
-                token,
-                user.getId(),
-                user.getName(),
-                user.getUsername(),
-                user.getImg_url(),
-                user.getRole().toString()
-        );
+        return new UserLoginResponseDTO(token);
     }
 
     @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
     public NewUserResponseDTO createUser(@RequestBody @Validated NewUserDTO body, BindingResult validation){
         System.out.println(validation);
         if(validation.hasErrors()){
@@ -48,6 +40,4 @@ public class AuthController {
             return new NewUserResponseDTO(newUser.getId());
         }
     }
-
-
 }

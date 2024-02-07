@@ -50,11 +50,11 @@ public class UserService {
         newUser.setCompany_email(body.company_email());
         newUser.setCompany_phone_number(body.company_phone_number());
         newUser.setVAT(body.VAT());
-
-        Address address = addressDAO.findById(body.idAddress())
-                .orElseThrow(() -> new NotFoundException("Address not found"));
-
-        newUser.setAddress(address);
+//
+//        Address address = addressDAO.findById(body.idAddress())
+//                .orElseThrow(() -> new NotFoundException("Address not found"));
+//
+//        newUser.setAddress(address);
 
         return userDAO.save(newUser);
 

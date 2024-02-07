@@ -1,5 +1,6 @@
 package sarahguarneri.CAPSTONE.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,7 @@ import java.util.UUID;
 @Setter
 @ToString
 @Entity
+@JsonIgnoreProperties({"password", "authorities", "accountNonExpired", "enabled", "accountNonLocked", "credentialsNonExpired", "username"})
 public class User implements UserDetails {
     @Id
     @GeneratedValue
