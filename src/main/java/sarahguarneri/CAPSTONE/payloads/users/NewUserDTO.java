@@ -17,14 +17,14 @@ public record NewUserDTO(
         @NotEmpty(message = "The field password must be filled")
         @Size(min = 4, message = "Password must be at least 4 characters!")
         String password,
-        @NotEmpty(message = "The field phone number must be filled")
-        String phone_number,
+//        @NotEmpty(message = "The field phone number must be filled")
+//        String phone_number,
         @NotEmpty(message = "Role must be one of these: admin, client or exhibitor")
-        String role,
-        String company_name,
-        String company_email,
-        String company_phone_number,
-        Long VAT
+        String role
+//        String company_name,
+//        String company_email,
+//        String company_phone_number,
+//        Long VAT
 //        Integer idAddress,
 //        Integer idField
 ) {

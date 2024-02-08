@@ -15,6 +15,9 @@ import sarahguarneri.CAPSTONE.repositories.AddressDAO;
 import sarahguarneri.CAPSTONE.repositories.UserDAO;
 import sarahguarneri.CAPSTONE.security.JWTTools;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
 public class AuthService {
 
@@ -30,22 +33,22 @@ public class AuthService {
     @Autowired
     private PasswordEncoder bcrypt;
 
-    @Autowired
-    private AddressDAO addressDAO;
+//    @Autowired
+//    private AddressDAO addressDAO;
 
     public String authenticationUser(UserLoginDTO body){
-        User user =  userService.findByEmail(body.email());
+
+        User user = userService.findByEmail(body.email());
+
+        System.out.println(user.getEmail());
+        System.out.println(user.getPassword());
+        System.out.println(body.password());
 
         if(bcrypt.matches(body.password(), user.getPassword())){
             return jwtTools.createToken(user);
         } else {
             throw new UnauthorizedException("Credenziali non valide");
         }
-    }
-
-
-    public User findByEmail(UserLoginDTO body){
-        return userService.findByEmail(body.email());
     }
 
     public User save(NewUserDTO body){
@@ -59,11 +62,11 @@ public class AuthService {
         newUser.setSurname(body.surname());
         newUser.setEmail(body.email());
         newUser.setPassword(bcrypt.encode(body.password()));
-        newUser.setPhone_number(body.phone_number());
-        newUser.setCompany_name(body.company_name());
-        newUser.setCompany_email(body.company_email());
-        newUser.setCompany_phone_number(body.company_phone_number());
-        newUser.setVAT(body.VAT());
+//        newUser.setPhone_number(body.phone_number());
+//        newUser.setCompany_name(body.company_name());
+//        newUser.setCompany_email(body.company_email());
+//        newUser.setCompany_phone_number(body.company_phone_number());
+//        newUser.setVAT(body.VAT());
 
 //        Address address = addressDAO.findById(body.idAddress())
 //                .orElseThrow(() -> new NotFoundException("Address not found"));
@@ -80,4 +83,26 @@ public class AuthService {
 
         return userDAO.save(newUser);
     }
+
+    public User findByIdAndUpdate(UUID id, User body){
+        User found = userService.findById(id);
+
+        found.setName(body.getName());
+        found.setSurname(body.getSurname());
+        found.setEmail(body.getEmail());
+        found.setPassword(bcrypt.encode(body.getPassword()));
+//        found.setPhone_number(body.getPhone_number());
+//        found.setRole(body.getRole());
+//        found.setCompany_name(body.getCompany_name());
+//        found.setCompany_email(body.getCompany_email());
+//        found.setCompany_phone_number(body.getCompany_phone_number());
+//        found.setVAT(body.getVAT());
+//        found.setAddress(body.getAddress());
+//        found.setField(body.getField());
+
+        return userDAO.save(found);
+    }
+
+
+
 }

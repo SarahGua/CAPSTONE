@@ -11,18 +11,17 @@ import java.util.Date;
 
 @Component
 public class JWTTools {
-//    @Value("${spring.jwt.secret}")
-//    private String secret;
+    @Value("${spring.jwt.secret}")
+    private String secret;
 
-    private final String secret;
-
-    public JWTTools(@Value("${spring.jwt.secret}") String secret) {
-        this.secret = secret;
-    }
+//    private final String secret;
+//
+//    public JWTTools(@Value("${spring.jwt.secret}") String secret) {
+//        this.secret = secret;
+//    }
 
     public String createToken(User user) {
         return Jwts.builder().subject(String.valueOf(user.getId()))
-                .subject(String.valueOf(user.getId()))
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7))
                 .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
@@ -32,6 +31,7 @@ public class JWTTools {
     public void verifyToken(String token) {
         try {
             Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes())).build().parse(token);
+//            Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes())).build();
         } catch (Exception ex) {
             throw new UnauthorizedException("Problemi col token! Per favore effettua di nuovo il login!");
         }

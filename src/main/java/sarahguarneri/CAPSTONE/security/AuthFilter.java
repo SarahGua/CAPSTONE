@@ -59,10 +59,6 @@ public class AuthFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        AntPathMatcher pathMatcher = new AntPathMatcher();
-
-        // later re-enable this
-        // bypasses "/comune endpoint
-        return pathMatcher.match("/auth/**", request.getServletPath());
+        return new AntPathMatcher().match("/auth/**",request.getServletPath());
     }
 }
