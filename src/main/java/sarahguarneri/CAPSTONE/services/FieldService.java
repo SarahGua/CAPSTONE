@@ -24,7 +24,7 @@ public class FieldService {
     }
 
     public Field save(NewFieldDTO body){
-        Field newField = new Field();
+        Field newField = new Field(body.description());
 
         newField.setDescription(body.description());
 

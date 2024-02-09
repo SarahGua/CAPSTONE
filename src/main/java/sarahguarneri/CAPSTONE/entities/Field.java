@@ -19,4 +19,8 @@ public class Field {
     private String description;
     @OneToMany(mappedBy = "field")
     private List<User> users = new ArrayList<>();
+
+    public Field(String description){
+        this.description = description;
+    }
 }

@@ -17,6 +17,7 @@ public class Stand {
     private UUID id;
     private String dimensions;
     private double cost;
+    private String status = "AVAILABLE";
     @OneToOne
     @JoinColumn(name = "user_id")
     private User exhibitor;

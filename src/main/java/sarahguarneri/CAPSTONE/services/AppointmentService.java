@@ -4,13 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sarahguarneri.CAPSTONE.entities.Appointment;
 import sarahguarneri.CAPSTONE.entities.Ticket;
+import sarahguarneri.CAPSTONE.entities.User;
 import sarahguarneri.CAPSTONE.exceptions.NotFoundException;
 import sarahguarneri.CAPSTONE.payloads.appointment.NewAppointmentDTO;
 import sarahguarneri.CAPSTONE.payloads.ticket.NewTicketDTO;
 import sarahguarneri.CAPSTONE.repositories.AppointmentDAO;
 import sarahguarneri.CAPSTONE.repositories.TicketDAO;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -19,6 +22,9 @@ public class AppointmentService {
     @Autowired
     private AppointmentDAO appointmentDAO;
 
+    @Autowired
+    private UserService userService;
+
     public List<Appointment> getAllAppointments(){
         return appointmentDAO.findAll();
     }
@@ -26,7 +32,7 @@ public class AppointmentService {
     public Appointment save(NewAppointmentDTO body){
         Appointment newAppointment = new Appointment();
 
-        newAppointment.setDate(body.date());
+        newAppointment.setDateTime(body.datetime());
 
         return appointmentDAO.save(newAppointment);
     }
@@ -38,7 +44,7 @@ public class AppointmentService {
     public Appointment findByIdAndUpdate(UUID id, Appointment body){
         Appointment found = findById(id);
 
-        found.setDate(body.getDate());
+        found.setDateTime(body.getDateTime());
 
         return appointmentDAO.save(found);
     }
@@ -46,5 +52,28 @@ public class AppointmentService {
     public void findByIdAndDelete(UUID id){
         Appointment found = findById(id);
         appointmentDAO.delete(found);
+    }
+
+    public Appointment bookAppointment(UUID exhibitoId, UUID clientId, LocalDateTime dateTime){
+        Appointment appointment = new Appointment();
+        appointment.setExhibitorApp(userService.findById(exhibitoId));
+        appointment.setClient(userService.findById(clientId));
+        appointment.setDateTime(dateTime);
+        appointment.setStatus("NOT AVAILABLE");
+        return appointmentDAO.save(appointment);
+    }
+
+    public Appointment bookAppointmentAvailable(UUID appointmentId, UUID clientId){
+        Appointment appointment = appointmentDAO.findById(appointmentId).orElseThrow(() -> new NotFoundException("Appuntamento con id " + appointmentId + " non trovato"));
+
+        if(!appointment.getStatus().equals("AVAILABLE")){
+            throw new RuntimeException("Appointment not available");
+        }
+
+        User client = userService.findById(clientId);
+        appointment.setClient(client);
+        appointment.setStatus("BOOKED");
+
+        return appointmentDAO.save(appointment);
     }
 }

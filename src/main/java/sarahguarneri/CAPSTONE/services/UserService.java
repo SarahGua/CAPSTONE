@@ -6,10 +6,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import sarahguarneri.CAPSTONE.entities.Address;
 import sarahguarneri.CAPSTONE.entities.Role;
+import sarahguarneri.CAPSTONE.entities.Ticket;
 import sarahguarneri.CAPSTONE.entities.User;
 import sarahguarneri.CAPSTONE.exceptions.NotFoundException;
 import sarahguarneri.CAPSTONE.payloads.users.NewUserDTO;
 import sarahguarneri.CAPSTONE.repositories.AddressDAO;
+import sarahguarneri.CAPSTONE.repositories.TicketDAO;
 import sarahguarneri.CAPSTONE.repositories.UserDAO;
 
 import java.util.List;
@@ -20,12 +22,6 @@ public class UserService {
 
     @Autowired
     private UserDAO userDAO;
-
-    @Autowired
-    private AddressDAO addressDAO;
-
-//    @Autowired
-//    private PasswordEncoder bcrypt;
 
     public List<User> getAllUsers(){
         return userDAO.findAll();
@@ -44,5 +40,4 @@ public class UserService {
     public User findByEmail(String email) throws NotFoundException{
         return userDAO.findByEmail(email).orElseThrow(() -> new NotFoundException("Utente con email " + email + " non trovata!"));
     }
-
 }

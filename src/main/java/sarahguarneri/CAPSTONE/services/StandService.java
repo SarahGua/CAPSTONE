@@ -3,6 +3,7 @@ package sarahguarneri.CAPSTONE.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sarahguarneri.CAPSTONE.entities.Stand;
+import sarahguarneri.CAPSTONE.entities.User;
 import sarahguarneri.CAPSTONE.exceptions.NotFoundException;
 import sarahguarneri.CAPSTONE.payloads.stand.NewStandDTO;
 import sarahguarneri.CAPSTONE.repositories.StandDAO;
@@ -15,6 +16,9 @@ public class StandService {
 
     @Autowired
     private StandDAO standDAO;
+
+    @Autowired
+    private UserService userService;
 
     public List<Stand> getAllStands(){
         return standDAO.findAll();
@@ -45,5 +49,17 @@ public class StandService {
     public void findByIdAndDelete(UUID id){
         Stand found = findById(id);
         standDAO.delete(found);
+    }
+
+    public Stand bookStand(UUID standId, UUID exhibitorId){
+        Stand stand = findById(standId);
+        if(stand.getStatus().equals("AVAILABLE")){
+            User exhibitor = userService.findById(exhibitorId);
+            stand.setStatus("NOT AVAILABLE");
+            stand.setExhibitor(exhibitor);
+            return standDAO.save(stand);
+        } else {
+            throw new RuntimeException("Stand not available");
+        }
     }
 }

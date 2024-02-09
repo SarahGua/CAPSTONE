@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import sarahguarneri.CAPSTONE.entities.Address;
+import sarahguarneri.CAPSTONE.entities.Field;
 import sarahguarneri.CAPSTONE.entities.Role;
 import sarahguarneri.CAPSTONE.entities.User;
 import sarahguarneri.CAPSTONE.exceptions.BadRequestException;
@@ -28,13 +29,13 @@ public class AuthService {
     private UserDAO userDAO;
 
     @Autowired
+    private FieldService fieldService;
+
+    @Autowired
     private JWTTools jwtTools;
 
     @Autowired
     private PasswordEncoder bcrypt;
-
-//    @Autowired
-//    private AddressDAO addressDAO;
 
     public String authenticationUser(UserLoginDTO body){
 
@@ -62,16 +63,14 @@ public class AuthService {
         newUser.setSurname(body.surname());
         newUser.setEmail(body.email());
         newUser.setPassword(bcrypt.encode(body.password()));
-//        newUser.setPhone_number(body.phone_number());
-//        newUser.setCompany_name(body.company_name());
-//        newUser.setCompany_email(body.company_email());
-//        newUser.setCompany_phone_number(body.company_phone_number());
-//        newUser.setVAT(body.VAT());
-
-//        Address address = addressDAO.findById(body.idAddress())
-//                .orElseThrow(() -> new NotFoundException("Address not found"));
-//
-//        newUser.setAddress(address);
+        newUser.setPhone_number(body.phone_number());
+        newUser.setCompany_name(body.company_name());
+        newUser.setCompany_email(body.company_email());
+        newUser.setCompany_phone_number(body.company_phone_number());
+        newUser.setVAT(body.VAT());
+        newUser.setAddress(body.address());
+        Field field = fieldService.findById(body.idField());
+        newUser.setField(field);
 
         if(body.role().equalsIgnoreCase("exhibitor")){
             newUser.setRole(Role.EXHIBITOR);
@@ -91,18 +90,15 @@ public class AuthService {
         found.setSurname(body.getSurname());
         found.setEmail(body.getEmail());
         found.setPassword(bcrypt.encode(body.getPassword()));
-//        found.setPhone_number(body.getPhone_number());
-//        found.setRole(body.getRole());
-//        found.setCompany_name(body.getCompany_name());
-//        found.setCompany_email(body.getCompany_email());
-//        found.setCompany_phone_number(body.getCompany_phone_number());
-//        found.setVAT(body.getVAT());
-//        found.setAddress(body.getAddress());
-//        found.setField(body.getField());
+        found.setPhone_number(body.getPhone_number());
+        found.setRole(body.getRole());
+        found.setCompany_name(body.getCompany_name());
+        found.setCompany_email(body.getCompany_email());
+        found.setCompany_phone_number(body.getCompany_phone_number());
+        found.setVAT(body.getVAT());
+        found.setAddress(body.getAddress());
+        found.setField(body.getField());
 
         return userDAO.save(found);
     }
-
-
-
 }
