@@ -1,6 +1,7 @@
 package sarahguarneri.CAPSTONE.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import sarahguarneri.CAPSTONE.entities.Ticket;
@@ -29,17 +30,20 @@ public class TicketController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public NewTicketReponseDTO saveStand(@RequestBody @Validated NewTicketDTO body){
         Ticket newStand = ticketService.save(body);
         return new NewTicketReponseDTO(newStand.getId());
     }
 
     @PutMapping("/{ticketId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Ticket findAndUpdate(@PathVariable UUID id, @RequestBody Ticket body){
         return ticketService.findByIdAndUpdate(id, body);
     }
 
     @DeleteMapping("/{ticketId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void findAndDelete(@PathVariable UUID id){
         ticketService.findByIdAndDelete(id);
     }

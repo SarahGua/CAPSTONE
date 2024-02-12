@@ -1,5 +1,7 @@
 package sarahguarneri.CAPSTONE.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -37,6 +39,7 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
     private long VAT;
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "field_id")
     private Field field;

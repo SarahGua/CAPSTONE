@@ -1,6 +1,7 @@
 package sarahguarneri.CAPSTONE.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import sarahguarneri.CAPSTONE.entities.Appointment;
@@ -24,6 +25,7 @@ public class FieldController {
     private FieldService fieldService;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<Field> getFields(){
         return fieldService.getAll();
     }
@@ -34,17 +36,20 @@ public class FieldController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public NewFieldResponseDTO saveField(@RequestBody @Validated NewFieldDTO body){
         Field newField = fieldService.save(body);
         return new NewFieldResponseDTO(newField.getId());
     }
 
     @PutMapping("/{fieldId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Field findAndUpdate(@PathVariable int id, @RequestBody Field body){
         return fieldService.findByIdAndUpdate(id, body);
     }
 
     @DeleteMapping("/{fieldId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void findAndDelete(@PathVariable int id){
         fieldService.findByIdAndDelete(id);
     }

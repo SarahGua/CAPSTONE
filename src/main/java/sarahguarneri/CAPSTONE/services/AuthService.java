@@ -3,20 +3,16 @@ package sarahguarneri.CAPSTONE.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import sarahguarneri.CAPSTONE.entities.Address;
 import sarahguarneri.CAPSTONE.entities.Field;
 import sarahguarneri.CAPSTONE.entities.Role;
 import sarahguarneri.CAPSTONE.entities.User;
 import sarahguarneri.CAPSTONE.exceptions.BadRequestException;
-import sarahguarneri.CAPSTONE.exceptions.NotFoundException;
 import sarahguarneri.CAPSTONE.exceptions.UnauthorizedException;
 import sarahguarneri.CAPSTONE.payloads.users.NewUserDTO;
 import sarahguarneri.CAPSTONE.payloads.users.UserLoginDTO;
-import sarahguarneri.CAPSTONE.repositories.AddressDAO;
 import sarahguarneri.CAPSTONE.repositories.UserDAO;
 import sarahguarneri.CAPSTONE.security.JWTTools;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service

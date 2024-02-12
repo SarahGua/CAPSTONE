@@ -1,17 +1,9 @@
 package sarahguarneri.CAPSTONE.services;
 
-import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import sarahguarneri.CAPSTONE.entities.Address;
-import sarahguarneri.CAPSTONE.entities.Role;
-import sarahguarneri.CAPSTONE.entities.Ticket;
 import sarahguarneri.CAPSTONE.entities.User;
 import sarahguarneri.CAPSTONE.exceptions.NotFoundException;
-import sarahguarneri.CAPSTONE.payloads.users.NewUserDTO;
-import sarahguarneri.CAPSTONE.repositories.AddressDAO;
-import sarahguarneri.CAPSTONE.repositories.TicketDAO;
 import sarahguarneri.CAPSTONE.repositories.UserDAO;
 
 import java.util.List;
@@ -39,5 +31,13 @@ public class UserService {
 
     public User findByEmail(String email) throws NotFoundException{
         return userDAO.findByEmail(email).orElseThrow(() -> new NotFoundException("Utente con email " + email + " non trovata!"));
+    }
+
+    public List<User> findByName(String name){
+        return userDAO.findExhibitorsByName(name);
+    }
+
+    public List<User> findUsersByField(String description) {
+        return userDAO.findByFieldDescription(description);
     }
 }

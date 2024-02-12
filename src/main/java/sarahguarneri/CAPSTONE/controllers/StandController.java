@@ -1,6 +1,7 @@
 package sarahguarneri.CAPSTONE.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import sarahguarneri.CAPSTONE.entities.Stand;
@@ -29,17 +30,20 @@ public class StandController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public NewStandResponseDTO saveStand(@RequestBody @Validated NewStandDTO body){
         Stand newStand = standService.save(body);
         return new NewStandResponseDTO(newStand.getId());
     }
 
     @PutMapping("/{standId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Stand findAndUpdate(@PathVariable UUID id, @RequestBody Stand body){
         return standService.findByIdAndUpdate(id, body);
     }
 
     @DeleteMapping("/{standId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void findAndDelete(@PathVariable UUID id){
         standService.findByIdAndDelete(id);
     }

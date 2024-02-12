@@ -1,6 +1,8 @@
 package sarahguarneri.CAPSTONE.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import sarahguarneri.CAPSTONE.entities.Appointment;
@@ -29,17 +31,20 @@ public class AppointmentController {
     }
 
     @PostMapping
-    public NewAppointmentResponseDTO saveStand(@RequestBody @Validated NewAppointmentDTO body){
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public NewAppointmentResponseDTO saveAppointment(@RequestBody @Validated NewAppointmentDTO body){
         Appointment newAppointment = appointmentService.save(body);
         return new NewAppointmentResponseDTO(newAppointment.getId());
     }
 
     @PutMapping("/{appointmentId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Appointment findAndUpdate(@PathVariable UUID id, @RequestBody Appointment body){
         return appointmentService.findByIdAndUpdate(id, body);
     }
 
     @DeleteMapping("/{appointmentId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void findAndDelete(@PathVariable UUID id){
         appointmentService.findByIdAndDelete(id);
     }

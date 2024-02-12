@@ -22,6 +22,7 @@ public record NewUserDTO(
         @NotEmpty(message = "Role must be one of these: admin, client or exhibitor")
         String role,
         String company_name,
+
         String company_email,
         String company_phone_number,
         String address,
