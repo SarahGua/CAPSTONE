@@ -14,7 +14,7 @@ import java.util.UUID;
 public interface UserDAO extends JpaRepository<User, UUID> {
     Optional<User> findByEmail(String email);
 
-    @Query("SELECT u FROM User u WHERE u.role = 'Exhibitor' AND u.name = :name")
+    @Query("SELECT u FROM User u WHERE u.role = 'EXHIBITOR' AND u.company_name = :name")
     List<User> findExhibitorsByName(@Param("name") String name);
 
     @Query("SELECT u FROM User u WHERE u.field.description = :description")

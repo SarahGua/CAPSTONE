@@ -1,10 +1,10 @@
-package sarahguarneri.CAPSTONE.payloads.users;
+package sarahguarneri.CAPSTONE.payloads.users.client;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
-public record NewUserDTO(
+public record NewUserClientDTO(
         @NotEmpty(message = "The field name must be filled")
         @Size(min = 3, max = 30, message = "The name must be between 3 and 30 characters!")
         String name,
@@ -18,15 +18,8 @@ public record NewUserDTO(
         @Size(min = 6, message = "Password must be at least 6 characters!")
         String password,
         @NotEmpty(message = "The field phone number must be filled")
-        String phone_number,
-        @NotEmpty(message = "Role must be one of these: admin, client or exhibitor")
-        String role,
-        String company_name,
-
-        String company_email,
-        String company_phone_number,
-        String address,
-        Long VAT,
-        Integer idField
+        String phone_number
+//        @NotEmpty(message = "Role must be one of these: admin, client or exhibitor")
+//        String role
 ) {
 }

@@ -21,9 +21,7 @@ public class Field {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String description;
-//    @JsonManagedReference
     @OneToMany(mappedBy = "field")
-//    @JoinColumn(name = "user_id")
     private List<User> users = new ArrayList<>();
 
     public Field(String description){

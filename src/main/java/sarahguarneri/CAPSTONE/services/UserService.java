@@ -20,6 +20,7 @@ public class UserService {
     }
 
     public User findById(UUID id){
+        System.out.println("id da trovare: " + id);
         return userDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
     }
 

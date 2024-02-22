@@ -1,5 +1,6 @@
 package sarahguarneri.CAPSTONE.security;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import sarahguarneri.CAPSTONE.entities.User;
@@ -13,12 +14,6 @@ import java.util.Date;
 public class JWTTools {
     @Value("${spring.jwt.secret}")
     private String secret;
-
-//    private final String secret;
-//
-//    public JWTTools(@Value("${spring.jwt.secret}") String secret) {
-//        this.secret = secret;
-//    }
 
     public String createToken(User user) {
         return Jwts.builder().subject(String.valueOf(user.getId()))
@@ -43,4 +38,5 @@ public class JWTTools {
                 .build()
                 .parseSignedClaims(token).getPayload().getSubject();
     }
+
 }

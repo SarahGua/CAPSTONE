@@ -36,6 +36,8 @@ public class SecurityConfig {
 
         httpSecurity.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
         httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/**").permitAll());
+        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/field").permitAll());
+
 
         return httpSecurity.build();
     }
@@ -49,7 +51,7 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3001"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

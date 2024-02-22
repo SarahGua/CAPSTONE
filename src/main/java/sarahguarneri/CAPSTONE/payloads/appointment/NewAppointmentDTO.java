@@ -4,9 +4,11 @@ import jakarta.validation.constraints.NotEmpty;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public record NewAppointmentDTO(
         @NotEmpty(message = "The field date must be filled")
-        LocalDateTime datetime
+        String date,
+        String time
 ) {
 }

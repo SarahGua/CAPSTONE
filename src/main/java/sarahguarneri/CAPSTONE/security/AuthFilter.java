@@ -30,8 +30,6 @@ public class AuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-
-
         String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new UnauthorizedException("Per favore metti il token nell'Authorization header");
@@ -59,6 +57,10 @@ public class AuthFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return new AntPathMatcher().match("/auth/**",request.getServletPath());
+        AntPathMatcher pathMatcher = new AntPathMatcher();
+
+        // later re-enable this
+        // bypasses "/comune endpoint
+        return pathMatcher.match("/auth/**", request.getServletPath());
     }
 }

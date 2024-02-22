@@ -1,4 +1,4 @@
-package sarahguarneri.CAPSTONE.payloads.users;
+package sarahguarneri.CAPSTONE.payloads.users.exhibitor;
 
 import java.util.UUID;
 

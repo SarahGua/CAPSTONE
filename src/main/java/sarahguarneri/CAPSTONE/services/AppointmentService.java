@@ -11,7 +11,9 @@ import sarahguarneri.CAPSTONE.payloads.ticket.NewTicketDTO;
 import sarahguarneri.CAPSTONE.repositories.AppointmentDAO;
 import sarahguarneri.CAPSTONE.repositories.TicketDAO;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -32,7 +34,8 @@ public class AppointmentService {
     public Appointment save(NewAppointmentDTO body){
         Appointment newAppointment = new Appointment();
 
-        newAppointment.setDateTime(body.datetime());
+        newAppointment.setDate(body.date());
+        newAppointment.setTime(body.time());
 
         return appointmentDAO.save(newAppointment);
     }
@@ -44,7 +47,8 @@ public class AppointmentService {
     public Appointment findByIdAndUpdate(UUID id, Appointment body){
         Appointment found = findById(id);
 
-        found.setDateTime(body.getDateTime());
+        found.setDate(body.getDate());
+        found.setTime(body.getTime());
 
         return appointmentDAO.save(found);
     }
@@ -54,11 +58,12 @@ public class AppointmentService {
         appointmentDAO.delete(found);
     }
 
-    public Appointment bookAppointment(UUID exhibitoId, UUID clientId, LocalDateTime dateTime){
+    public Appointment bookAppointment(UUID exhibitoId, UUID clientId, String dateTime, String time){
         Appointment appointment = new Appointment();
         appointment.setExhibitorApp(userService.findById(exhibitoId));
         appointment.setClient(userService.findById(clientId));
-        appointment.setDateTime(dateTime);
+        appointment.setDate(dateTime);
+        appointment.setTime(time);
         appointment.setStatus("NOT AVAILABLE");
         return appointmentDAO.save(appointment);
     }

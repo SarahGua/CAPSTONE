@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import sarahguarneri.CAPSTONE.entities.Stand;
 import sarahguarneri.CAPSTONE.entities.User;
 import sarahguarneri.CAPSTONE.exceptions.NotFoundException;
+import sarahguarneri.CAPSTONE.payloads.stand.BookStandDTO;
 import sarahguarneri.CAPSTONE.payloads.stand.NewStandDTO;
 import sarahguarneri.CAPSTONE.repositories.StandDAO;
 
@@ -29,6 +30,7 @@ public class StandService {
 
         newStand.setCost(body.cost());
         newStand.setDimensions(body.dimensions());
+//        newStand.setStatus(body.status());
 
         return standDAO.save(newStand);
     }
@@ -42,6 +44,7 @@ public class StandService {
 
         found.setDimensions(body.getDimensions());
         found.setCost(body.getCost());
+//        found.setStatus(body.getStatus());
 
         return standDAO.save(found);
     }
@@ -62,4 +65,5 @@ public class StandService {
             throw new RuntimeException("Stand not available");
         }
     }
+
 }

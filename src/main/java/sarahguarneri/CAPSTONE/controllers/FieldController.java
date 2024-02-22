@@ -25,12 +25,11 @@ public class FieldController {
     private FieldService fieldService;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
     public List<Field> getFields(){
         return fieldService.getAll();
     }
 
-    @GetMapping("/{fieldId}")
+    @GetMapping("/{id}")
     public Field getFieldById(@PathVariable int id){
         return fieldService.findById(id);
     }
@@ -42,13 +41,12 @@ public class FieldController {
         return new NewFieldResponseDTO(newField.getId());
     }
 
-    @PutMapping("/{fieldId}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping("/{id}")
     public Field findAndUpdate(@PathVariable int id, @RequestBody Field body){
         return fieldService.findByIdAndUpdate(id, body);
     }
 
-    @DeleteMapping("/{fieldId}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public void findAndDelete(@PathVariable int id){
         fieldService.findByIdAndDelete(id);

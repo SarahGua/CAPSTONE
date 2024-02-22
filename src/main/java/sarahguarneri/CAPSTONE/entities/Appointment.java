@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Getter
@@ -17,7 +18,8 @@ public class Appointment {
     @Id
     @GeneratedValue
     private UUID id;
-    private LocalDateTime dateTime;
+    private String date;
+    private String time;
     private String status = "AVAILABLE";
     @OneToOne
     @JoinColumn(name = "exhibitor_id")

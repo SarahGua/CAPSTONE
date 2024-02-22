@@ -3,6 +3,7 @@ package sarahguarneri.CAPSTONE.entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,14 +39,16 @@ public class User implements UserDetails {
     private String address;
     @Enumerated(EnumType.STRING)
     private Role role;
-    private long VAT;
+    private String VAT;
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "field_id")
     private Field field;
     private String img_url;
+    @JsonManagedReference
     @OneToMany(mappedBy = "client")
     private List<Ticket> tickets = new ArrayList<>();
+    @JsonManagedReference
     @OneToOne(mappedBy = "exhibitor")
     private Stand stand;
     @OneToOne(mappedBy = "exhibitorApp")
@@ -83,4 +86,25 @@ public class User implements UserDetails {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", phone_number='" + phone_number + '\'' +
+                ", company_name='" + company_name + '\'' +
+                ", company_email='" + company_email + '\'' +
+                ", company_phone_number='" + company_phone_number + '\'' +
+                ", address='" + address + '\'' +
+                ", role=" + role +
+                ", VAT='" + VAT + '\'' +
+                ", field=" + field +
+                ", img_url='" + img_url + '\'' +
+                ", appointmentAsExhibitor=" + appointmentAsExhibitor +
+                ", appointmentAsClient=" + appointmentAsClient +
+                '}';
+    }
 }
