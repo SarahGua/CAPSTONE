@@ -6,6 +6,7 @@ import sarahguarneri.CAPSTONE.entities.User;
 import sarahguarneri.CAPSTONE.exceptions.NotFoundException;
 import sarahguarneri.CAPSTONE.repositories.UserDAO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,6 +23,12 @@ public class UserService {
     public User findById(UUID id){
         System.out.println("id da trovare: " + id);
         return userDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
+    }
+
+    public List<User> findByIdlist(UUID id){
+        List<User> users = new ArrayList<>();
+        users.add(userDAO.findById(id).orElseThrow(() -> new NotFoundException(id)));
+        return users;
     }
 
 

@@ -14,9 +14,7 @@ import sarahguarneri.CAPSTONE.repositories.TicketDAO;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class AppointmentService {
@@ -58,27 +56,52 @@ public class AppointmentService {
         appointmentDAO.delete(found);
     }
 
-    public Appointment bookAppointment(UUID exhibitoId, UUID clientId, String dateTime, String time){
-        Appointment appointment = new Appointment();
-        appointment.setExhibitorApp(userService.findById(exhibitoId));
-        appointment.setClient(userService.findById(clientId));
-        appointment.setDate(dateTime);
-        appointment.setTime(time);
-        appointment.setStatus("NOT AVAILABLE");
-        return appointmentDAO.save(appointment);
-    }
+    public Appointment bookAppointment(UUID clientId, UUID exhibitorId, UUID appointmentId){
+        User client = userService.findById(clientId);
+        User exhibitor = userService.findById(exhibitorId);
+        Appointment appointment = findById(appointmentId);
 
-    public Appointment bookAppointmentAvailable(UUID appointmentId, UUID clientId){
-        Appointment appointment = appointmentDAO.findById(appointmentId).orElseThrow(() -> new NotFoundException("Appuntamento con id " + appointmentId + " non trovato"));
-
-        if(!appointment.getStatus().equals("AVAILABLE")){
-            throw new RuntimeException("Appointment not available");
+        if (!appointment.getStatus().equals("AVAILABLE")) {
+            throw new RuntimeException("L'appuntamento non è disponibile.");
         }
 
-        User client = userService.findById(clientId);
-        appointment.setClient(client);
+        // Creare una nuova lista per i clienti ed espositori
+        List<User> clients = new ArrayList<>();
+        List<User> exhibitors = new ArrayList<>();
+
+        // Aggiungi il cliente e l'exhibitor alla lista
+        clients.add(client);
+        exhibitors.add(exhibitor);
+
         appointment.setStatus("BOOKED");
+        appointment.setClient(clients);
+        appointment.setExhibitor(exhibitors);
 
         return appointmentDAO.save(appointment);
     }
+
+//    public Appointment bookAppointment(UUID exhibitoId, UUID clientId, String dateTime, String time){
+//        Appointment appointment = new Appointment();
+//
+//        appointment.setExhibitor(userService.findByIdlist(exhibitoId));
+//        appointment.setClient(userService.findByIdlist(clientId));
+//        appointment.setDate(dateTime);
+//        appointment.setTime(time);
+//        appointment.setStatus("NOT AVAILABLE");
+//        return appointmentDAO.save(appointment);
+//    }
+
+//    public Appointment bookAppointmentAvailable(UUID appointmentId, UUID clientId){
+//        Appointment appointment = appointmentDAO.findById(appointmentId).orElseThrow(() -> new NotFoundException("Appuntamento con id " + appointmentId + " non trovato"));
+//
+//        if(!appointment.getStatus().equals("AVAILABLE")){
+//            throw new RuntimeException("Appointment not available");
+//        }
+//
+//        User client = userService.findById(clientId);
+//        appointment.setClient(userService.findByIdlist(clientId));
+//        appointment.setStatus("BOOKED");
+//
+//        return appointmentDAO.save(appointment);
+//    }
 }

@@ -51,10 +51,10 @@ public class User implements UserDetails {
     @JsonManagedReference
     @OneToOne(mappedBy = "exhibitor")
     private Stand stand;
-    @OneToOne(mappedBy = "exhibitorApp")
-    private Appointment appointmentAsExhibitor;
-    @OneToOne(mappedBy = "client")
-    private Appointment appointmentAsClient;
+    @ManyToMany(mappedBy = "Exhibitor")
+    private List<Appointment> appointmentsEx = new ArrayList<>();
+    @ManyToMany(mappedBy = "Client")
+    private List<Appointment> appointmentsCl = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -103,8 +103,8 @@ public class User implements UserDetails {
                 ", VAT='" + VAT + '\'' +
                 ", field=" + field +
                 ", img_url='" + img_url + '\'' +
-                ", appointmentAsExhibitor=" + appointmentAsExhibitor +
-                ", appointmentAsClient=" + appointmentAsClient +
+//                ", appointmentAsExhibitor=" + appointmentAsExhibitor +
+//                ", appointmentAsClient=" + appointmentAsClient +
                 '}';
     }
 }

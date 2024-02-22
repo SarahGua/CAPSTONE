@@ -8,6 +8,8 @@ import lombok.ToString;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -21,10 +23,18 @@ public class Appointment {
     private String date;
     private String time;
     private String status = "AVAILABLE";
-    @OneToOne
-    @JoinColumn(name = "exhibitor_id")
-    private User exhibitorApp;
-    @OneToOne
-    @JoinColumn(name = "client_id")
-    private User client;
+    @ManyToMany
+    @JoinTable(
+            name = "appointment_exhibitor",
+            joinColumns = @JoinColumn(name = "appointmentEx_id"),
+            inverseJoinColumns = @JoinColumn(name = "exhibitor_id")
+    )
+    private List<User> Exhibitor = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "appointment_client",
+            joinColumns = @JoinColumn(name = "appointmentCl_id"),
+            inverseJoinColumns = @JoinColumn(name = "client_id")
+    )
+    private List<User> Client = new ArrayList<>();
 }

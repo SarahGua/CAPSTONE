@@ -37,6 +37,12 @@ public class AppointmentController {
         return new NewAppointmentResponseDTO(newAppointment.getId());
     }
 
+    @PostMapping("/book")
+    public NewAppointmentResponseDTO bookAppointment(@RequestParam UUID clientId, @RequestParam UUID exhibitorId, @RequestParam UUID appointmentId){
+        Appointment appointment = appointmentService.bookAppointment(clientId, exhibitorId, appointmentId);
+        return new NewAppointmentResponseDTO(appointmentId);
+    }
+
     @PutMapping("/{appointmentId}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public Appointment findAndUpdate(@PathVariable UUID id, @RequestBody Appointment body){
