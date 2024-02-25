@@ -19,18 +19,18 @@ public class Ticket {
     private double cost = 30.00;
     private int maxTickets = 10;
     private int requiredNumb = 1;
-    @JsonBackReference
+//    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User client;
 
-    @Override
-    public String toString() {
-        return "Ticket{" +
-                "id=" + id +
-                ", cost=" + cost +
-                ", maxTickets=" + maxTickets +
-                ", requiredNumb=" + requiredNumb +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Ticket{" +
+//                "id=" + id +
+//                ", cost=" + cost +
+//                ", maxTickets=" + maxTickets +
+//                ", requiredNumb=" + requiredNumb +
+//                '}';
+//    }
 }

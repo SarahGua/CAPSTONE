@@ -8,6 +8,7 @@ import sarahguarneri.CAPSTONE.entities.Appointment;
 import sarahguarneri.CAPSTONE.entities.Field;
 import sarahguarneri.CAPSTONE.payloads.appointment.NewAppointmentDTO;
 import sarahguarneri.CAPSTONE.payloads.appointment.NewAppointmentResponseDTO;
+import sarahguarneri.CAPSTONE.payloads.field.FieldAddUser;
 import sarahguarneri.CAPSTONE.payloads.field.NewFieldDTO;
 import sarahguarneri.CAPSTONE.payloads.field.NewFieldResponseDTO;
 import sarahguarneri.CAPSTONE.repositories.FieldDAO;
@@ -42,8 +43,13 @@ public class FieldController {
     }
 
     @PutMapping("/{id}")
-    public Field findAndUpdate(@PathVariable int id, @RequestBody Field body){
-        return fieldService.findByIdAndUpdate(id, body);
+    public Field findAndUpdate(@PathVariable int id, @RequestBody FieldAddUser body){
+        return fieldService.findByIdAndAddUser(id, body);
+    }
+
+    @PutMapping("/{id}/{update}")
+    public Field update(@PathVariable int id, @RequestBody Field body){
+        return fieldService.update(id, body);
     }
 
     @DeleteMapping("/{id}")

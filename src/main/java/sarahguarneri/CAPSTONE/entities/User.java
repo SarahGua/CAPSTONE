@@ -44,15 +44,18 @@ public class User implements UserDetails {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "field_id")
     private Field field;
-    private String img_url;
-    @JsonManagedReference
+    private String img_url = "http://res.cloudinary.com/dxjm72os7/image/upload/v1708860620/c0ujnqznypkkhoowjw5z.jpg";
+//    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<Ticket> tickets = new ArrayList<>();
     @JsonManagedReference
     @OneToOne(mappedBy = "exhibitor")
     private Stand stand;
+    @JsonIgnore
     @ManyToMany(mappedBy = "Exhibitor")
     private List<Appointment> appointmentsEx = new ArrayList<>();
+    @JsonIgnore
     @ManyToMany(mappedBy = "Client")
     private List<Appointment> appointmentsCl = new ArrayList<>();
 
@@ -101,7 +104,7 @@ public class User implements UserDetails {
                 ", address='" + address + '\'' +
                 ", role=" + role +
                 ", VAT='" + VAT + '\'' +
-                ", field=" + field +
+//                ", field=" + field +
                 ", img_url='" + img_url + '\'' +
 //                ", appointmentAsExhibitor=" + appointmentAsExhibitor +
 //                ", appointmentAsClient=" + appointmentAsClient +

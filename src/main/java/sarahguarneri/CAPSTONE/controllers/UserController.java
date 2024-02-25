@@ -5,11 +5,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import sarahguarneri.CAPSTONE.entities.User;
 import sarahguarneri.CAPSTONE.security.JWTTools;
 import sarahguarneri.CAPSTONE.services.AuthService;
 import sarahguarneri.CAPSTONE.services.UserService;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -70,5 +72,12 @@ public class UserController {
     @GetMapping("/fieldUsers")
     public List<User> getUsersByField(@RequestParam String description) {
         return userService.findUsersByField(description);
+    }
+
+    //endpoint per caricamento immagine
+    @PostMapping("/{id}/uploadAvatar")
+    public String uploadAvatar(@RequestParam("avatar") MultipartFile file, @PathVariable UUID id) throws IOException {
+        System.out.println(file);
+        return userService.uploadPicture(file, id);
     }
 }

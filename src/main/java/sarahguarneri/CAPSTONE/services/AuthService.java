@@ -164,6 +164,10 @@ public class AuthService {
             found.setField(body.getField());
         }
 
+//        if(body.getImg_url() != null){
+//            found.setImg_url(body.getImg_url());
+//        }
+
         return userDAO.save(found);
     }
 }

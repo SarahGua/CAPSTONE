@@ -1,5 +1,6 @@
 package sarahguarneri.CAPSTONE.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,7 @@ public class Appointment {
     private String date;
     private String time;
     private String status = "AVAILABLE";
+//    @JsonBackReference
     @ManyToMany
     @JoinTable(
             name = "appointment_exhibitor",
@@ -30,6 +32,7 @@ public class Appointment {
             inverseJoinColumns = @JoinColumn(name = "exhibitor_id")
     )
     private List<User> Exhibitor = new ArrayList<>();
+//    @JsonBackReference
     @ManyToMany
     @JoinTable(
             name = "appointment_client",
@@ -37,4 +40,14 @@ public class Appointment {
             inverseJoinColumns = @JoinColumn(name = "client_id")
     )
     private List<User> Client = new ArrayList<>();
+
+//    @Override
+//    public String toString() {
+//        return "Appointment{" +
+//                "id=" + id +
+//                ", date='" + date + '\'' +
+//                ", time='" + time + '\'' +
+//                ", status='" + status + '\'' +
+//                '}';
+//    }
 }

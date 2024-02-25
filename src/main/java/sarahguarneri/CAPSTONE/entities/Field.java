@@ -1,5 +1,6 @@
 package sarahguarneri.CAPSTONE.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -21,10 +22,19 @@ public class Field {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String description;
+//    @JsonBackReference
     @OneToMany(mappedBy = "field")
     private List<User> users = new ArrayList<>();
 
     public Field(String description){
         this.description = description;
     }
+
+//    @Override
+//    public String toString() {
+//        return "Field{" +
+//                "id=" + id +
+//                ", description='" + description + '\'' +
+//                '}';
+//    }
 }

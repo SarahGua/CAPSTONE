@@ -65,11 +65,9 @@ public class AppointmentService {
             throw new RuntimeException("L'appuntamento non è disponibile.");
         }
 
-        // Creare una nuova lista per i clienti ed espositori
         List<User> clients = new ArrayList<>();
         List<User> exhibitors = new ArrayList<>();
 
-        // Aggiungi il cliente e l'exhibitor alla lista
         clients.add(client);
         exhibitors.add(exhibitor);
 
