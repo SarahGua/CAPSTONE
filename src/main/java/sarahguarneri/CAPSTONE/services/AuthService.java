@@ -151,22 +151,22 @@ public class AuthService {
             found.setCompany_phone_number(body.getCompany_phone_number());
         }
 
-        if(body.getVAT() != null){
-            System.out.println(body.getVAT());
-            found.setVAT(body.getVAT());
+        if(body.getVat() != null){
+            System.out.println(body.getVat());
+            found.setVat(body.getVat());
         }
 
         if(body.getAddress() != null){
             found.setAddress(body.getAddress());
         }
 
-        if(body.getField() != null){
-            found.setField(body.getField());
-        }
-
-//        if(body.getImg_url() != null){
-//            found.setImg_url(body.getImg_url());
+//        if(body.getField() != null){
+//            found.setField(body.getField());
 //        }
+
+        if(body.getImg_url() != null){
+            found.setImg_url(body.getImg_url());
+        }
 
         return userDAO.save(found);
     }

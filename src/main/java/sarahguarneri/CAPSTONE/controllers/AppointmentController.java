@@ -37,8 +37,8 @@ public class AppointmentController {
         return new NewAppointmentResponseDTO(newAppointment.getId());
     }
 
-    @PostMapping("/book/{exhibitorId}")
-    public NewAppointmentResponseDTO bookAppointment(@PathVariable UUID exhibitorId,
+    @PostMapping("/book/{id}")
+    public NewAppointmentResponseDTO bookAppointment(@PathVariable UUID id,
                                                      @RequestBody NewAppointmentDTO body
                                                     ){
         Appointment appointment = appointmentService.bookAppointment(body);
@@ -51,8 +51,7 @@ public class AppointmentController {
         return appointmentService.findByIdAndUpdate(id, body);
     }
 
-    @DeleteMapping("/{appointmentId}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping("/{id}")
     public void findAndDelete(@PathVariable UUID id){
         appointmentService.findByIdAndDelete(id);
     }

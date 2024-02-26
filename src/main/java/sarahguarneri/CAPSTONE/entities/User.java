@@ -39,7 +39,7 @@ public class User implements UserDetails {
     private String address;
     @Enumerated(EnumType.STRING)
     private Role role;
-    private String VAT;
+    private String vat;
     @JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "field_id")
@@ -108,7 +108,7 @@ public class User implements UserDetails {
                 ", company_phone_number='" + company_phone_number + '\'' +
                 ", address='" + address + '\'' +
                 ", role=" + role +
-                ", VAT='" + VAT + '\'' +
+                ", VAT='" + vat + '\'' +
 //                ", field=" + field +
                 ", img_url='" + img_url + '\'' +
 //                ", appointmentAsExhibitor=" + appointmentAsExhibitor +
