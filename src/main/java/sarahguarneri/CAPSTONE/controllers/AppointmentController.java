@@ -25,7 +25,7 @@ public class AppointmentController {
         return appointmentService.getAllAppointments();
     }
 
-    @GetMapping("/{appointmentId}")
+    @GetMapping("/{id}")
     public Appointment getAppointmentById(@PathVariable UUID id){
         return appointmentService.findById(id);
     }
@@ -37,10 +37,12 @@ public class AppointmentController {
         return new NewAppointmentResponseDTO(newAppointment.getId());
     }
 
-    @PostMapping("/book")
-    public NewAppointmentResponseDTO bookAppointment(@RequestParam UUID clientId, @RequestParam UUID exhibitorId, @RequestParam UUID appointmentId){
-        Appointment appointment = appointmentService.bookAppointment(clientId, exhibitorId, appointmentId);
-        return new NewAppointmentResponseDTO(appointmentId);
+    @PostMapping("/book/{exhibitorId}")
+    public NewAppointmentResponseDTO bookAppointment(@PathVariable UUID exhibitorId,
+                                                     @RequestBody NewAppointmentDTO body
+                                                    ){
+        Appointment appointment = appointmentService.bookAppointment(body);
+        return new NewAppointmentResponseDTO(appointment.getId());
     }
 
     @PutMapping("/{appointmentId}")

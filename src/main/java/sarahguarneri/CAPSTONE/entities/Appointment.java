@@ -24,22 +24,31 @@ public class Appointment {
     private String date;
     private String time;
     private String status = "AVAILABLE";
+
+    @ManyToOne
+    @JoinColumn(name = "clientId")
+    private User Client;
+
+    @ManyToOne
+    @JoinColumn(name = "exhibitorId")
+    private User Exhibitor;
+
 //    @JsonBackReference
-    @ManyToMany
-    @JoinTable(
-            name = "appointment_exhibitor",
-            joinColumns = @JoinColumn(name = "appointmentEx_id"),
-            inverseJoinColumns = @JoinColumn(name = "exhibitor_id")
-    )
-    private List<User> Exhibitor = new ArrayList<>();
+//    @ManyToMany
+//    @JoinTable(
+//            name = "appointment_exhibitor",
+//            joinColumns = @JoinColumn(name = "appointmentEx_id"),
+//            inverseJoinColumns = @JoinColumn(name = "exhibitor_id")
+//    )
+//    private List<User> Exhibitor = new ArrayList<>();
 //    @JsonBackReference
-    @ManyToMany
-    @JoinTable(
-            name = "appointment_client",
-            joinColumns = @JoinColumn(name = "appointmentCl_id"),
-            inverseJoinColumns = @JoinColumn(name = "client_id")
-    )
-    private List<User> Client = new ArrayList<>();
+//    @ManyToMany
+//    @JoinTable(
+//            name = "appointment_client",
+//            joinColumns = @JoinColumn(name = "appointmentCl_id"),
+//            inverseJoinColumns = @JoinColumn(name = "client_id")
+//    )
+//    private List<User> Client = new ArrayList<>();
 
 //    @Override
 //    public String toString() {

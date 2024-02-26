@@ -45,19 +45,24 @@ public class User implements UserDetails {
     @JoinColumn(name = "field_id")
     private Field field;
     private String img_url = "http://res.cloudinary.com/dxjm72os7/image/upload/v1708860620/c0ujnqznypkkhoowjw5z.jpg";
-//    @JsonManagedReference
     @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<Ticket> tickets = new ArrayList<>();
     @JsonManagedReference
     @OneToOne(mappedBy = "exhibitor")
     private Stand stand;
+//    @JsonIgnore
+//    @ManyToMany(mappedBy = "Exhibitor")
+//    private List<Appointment> appointmentsEx = new ArrayList<>();
+//    @JsonIgnore
+//    @ManyToMany(mappedBy = "Client")
+//    private List<Appointment> appointmentsCl = new ArrayList<>();
     @JsonIgnore
-    @ManyToMany(mappedBy = "Exhibitor")
-    private List<Appointment> appointmentsEx = new ArrayList<>();
-    @JsonIgnore
-    @ManyToMany(mappedBy = "Client")
+    @OneToMany(mappedBy = "Client")
     private List<Appointment> appointmentsCl = new ArrayList<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "Exhibitor")
+    private List<Appointment> appointmentsEx = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
