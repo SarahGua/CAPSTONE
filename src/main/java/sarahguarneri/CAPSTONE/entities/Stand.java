@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.UUID;
 
 @Getter
@@ -17,8 +20,9 @@ public class Stand {
     @GeneratedValue
     private UUID id;
     private String dimensions;
-    private double cost;
+    private String cost;
     private String status = "AVAILABLE";
+    private String position;
     @JsonBackReference
     @OneToOne
     @JoinColumn(name = "user_id")

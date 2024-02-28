@@ -9,7 +9,8 @@ import java.util.UUID;
 public record NewTicketDTO(
 
         @NotNull
-        UUID clientId
+        UUID clientId,
+        int quantity
 
 ) {
 }

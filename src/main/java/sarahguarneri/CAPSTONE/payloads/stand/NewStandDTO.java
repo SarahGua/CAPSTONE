@@ -5,12 +5,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record NewStandDTO(
-        @NotNull
-        Double cost,
+        @NotEmpty
+        String cost,
         @NotEmpty(message = "The field dimensions must be filled")
-        String dimensions
+        String dimensions,
+        String position
 
-//        @NotEmpty
-//        String status
+
 ) {
 }

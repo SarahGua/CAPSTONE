@@ -25,24 +25,29 @@ public class TicketController {
         return ticketService.getAllTicket();
     }
 
-    @GetMapping("/{ticketId}")
+    @GetMapping("/{id}")
     public Ticket getTicketById(@PathVariable UUID id){
         return ticketService.findById(id);
     }
 
+//    @GetMapping("/available")
+//    public int getAvailableTicket(){
+//        return ticketService.getAvailableTickets();
+//    }
+
     @PostMapping
     public NewTicketReponseDTO purchase(@RequestBody @Validated NewTicketDTO body){
         Ticket newTicket = ticketService.save(body);
-        return new NewTicketReponseDTO(newTicket.getId());
+        return new NewTicketReponseDTO(newTicket.getId(), newTicket.getAvailableQuantity());
     }
 
-    @PutMapping("/{ticketId}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public Ticket findAndUpdate(@PathVariable UUID id, @RequestBody Ticket body){
         return ticketService.findByIdAndUpdate(id, body);
     }
 
-    @DeleteMapping("/{ticketId}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public void findAndDelete(@PathVariable UUID id){
         ticketService.findByIdAndDelete(id);

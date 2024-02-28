@@ -30,7 +30,7 @@ public class StandService {
 
         newStand.setCost(body.cost());
         newStand.setDimensions(body.dimensions());
-//        newStand.setStatus(body.status());
+        newStand.setPosition(body.position());
 
         return standDAO.save(newStand);
     }

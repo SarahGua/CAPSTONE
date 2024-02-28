@@ -17,20 +17,9 @@ public class Ticket {
     @GeneratedValue
     private UUID id;
     private double cost = 30.00;
-    private int maxTickets = 10;
-    private int requiredNumb = 1;
-//    @JsonBackReference
+    private int quantity;
+    private int availableQuantity;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User client;
-
-//    @Override
-//    public String toString() {
-//        return "Ticket{" +
-//                "id=" + id +
-//                ", cost=" + cost +
-//                ", maxTickets=" + maxTickets +
-//                ", requiredNumb=" + requiredNumb +
-//                '}';
-//    }
 }

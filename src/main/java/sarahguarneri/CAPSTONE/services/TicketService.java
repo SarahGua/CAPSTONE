@@ -27,75 +27,32 @@ public class TicketService {
     }
 
     public Ticket save(NewTicketDTO body){
+        User client = userService.findById(body.clientId());
+
+        int availableTicket = 100;
+        int quantityRequested = body.quantity();
+
         Ticket newTicket = new Ticket();
 
-        User client = userService.findById(body.clientId());
-        System.out.println(body.clientId());
+        if(quantityRequested > 0 && quantityRequested < availableTicket){
 
-        newTicket.setClient(client);
-//        newTicket.setRequiredNumb(body.requiredNumb());
-
-        System.out.println(newTicket);
-
+            for(int i = 0; i < quantityRequested; i++) {
+                newTicket.setClient(client);
+                int newAvailableQuantity = availableTicket - quantityRequested;
+                System.out.println(newAvailableQuantity);
+            }
+        } else {
+            throw new RuntimeException();
+        }
 
         return ticketDAO.save(newTicket);
     }
 
-//    public Ticket purchase(NewTicketDTO body){
-//        User user = userService.findById(body.clientId());
-//
-//        if(user.getRole() != Role.CLIENT){
-//            throw new RuntimeException("Solo i clienti possono comprare i biglietti");
-//        }
-//
-//        Ticket ticket = new Ticket();
-//
-//        ticket.setMaxTickets(body.maxTickets());
-//        ticket.setCost(body.cost());
-//        ticket.setRequiredNumb(body.requiredNumb());
-//
-//        int currentMaxNumb = ticket.getMaxTickets();
-//
-//        if(currentMaxNumb >= body.requiredNumb()){
-//            ticket.setMaxTickets(currentMaxNumb - body.requiredNumb());
-//        } else {
-//            throw  new RuntimeException("Tikets not available");
-//        }
-//
-//        return ticketDAO.save(ticket);
-//    }
-
-//    public List<Ticket> purchase(List<NewTicketDTO> tickets) {
-//        List<Ticket> purchasedTickets = new ArrayList<>();
-//
-//        for (NewTicketDTO ticketData : tickets) {
-//            User user = userService.findById(ticketData.clientId());
-//
-//            if (user.getRole() != Role.CLIENT) {
-//                throw new RuntimeException("Solo i clienti possono comprare i biglietti");
-//            }
-//
-//            int requiredNumb = ticketData.requiredNumb();
-//            int maxTickets = ticketData.maxTickets();
-//
-//
-//            if (stockManager.getTotalAvailableTickets() >= requiredNumb) {
-//                for (int i = 0; i < requiredNumb; i++) {
-//                    Ticket ticket = new Ticket();
-//                    ticket.setMaxTickets(maxTickets);
-//                    ticket.setCost(ticketData.getCost());
-//
-//                    // Riduci il numero di biglietti disponibili nel magazzino
-//                    stockManager.reduceAvailableTickets(1);
-//
-//                    purchasedTickets.add(ticketDAO.save(ticket));
-//                }
-//            } else {
-//                throw new RuntimeException("Non ci sono abbastanza biglietti disponibili");
-//            }
-//        }
-//
-//        return purchasedTickets;
+//    public int getAvailableTickets(){
+//        List<Ticket> allTIckets = getAllTicket();
+//        int totalTickets = allTIckets.size();
+//        int soldTickets = allTIckets.stream().mapToInt(Ticket::getSoldTickets).sum();
+//        return totalTickets - soldTickets;
 //    }
 
     public Ticket findById(UUID id){
@@ -105,7 +62,7 @@ public class TicketService {
     public Ticket findByIdAndUpdate(UUID id, Ticket body){
         Ticket found = findById(id);
 
-        found.setMaxTickets(body.getMaxTickets());
+//        found.setMaxTickets(body.getMaxTickets());
         found.setCost(body.getCost());
 
         return ticketDAO.save(found);
@@ -115,22 +72,4 @@ public class TicketService {
         Ticket found = findById(id);
         ticketDAO.delete(found);
     }
-
-//    public Ticket purchaseTicket(newTicketDTO body){
-//        User user = userService.findById(body.getUserId);
-//
-//        if(user.getRole() != Role.CLIENT){
-//            throw new RuntimeException("Only clients can buy tickets");
-//        }
-//
-//        Ticket ticket = new Ticket();
-//        ticket.setMaxTickets(body.ge);
-//        int currentMaxNumb = ticket.getMaxTickets();
-//        if(currentMaxNumb >= quantity){
-//            ticket.setMaxTickets(currentMaxNumb - quantity);
-//            return ticketDAO.save(ticket);
-//        } else{
-//            throw new RuntimeException("Tickets not available");
-//        }
-//    }
 }
