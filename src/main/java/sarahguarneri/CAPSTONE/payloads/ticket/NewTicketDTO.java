@@ -10,7 +10,7 @@ public record NewTicketDTO(
 
         @NotNull
         UUID clientId,
-        int quantity
+        Integer quantity
 
 ) {
 }

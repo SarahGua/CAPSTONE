@@ -1,11 +1,13 @@
 package sarahguarneri.CAPSTONE.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import sarahguarneri.CAPSTONE.entities.Ticket;
+import sarahguarneri.CAPSTONE.payloads.stand.NewStandResponseDTO;
 import sarahguarneri.CAPSTONE.payloads.ticket.NewTicketDTO;
 import sarahguarneri.CAPSTONE.payloads.ticket.NewTicketReponseDTO;
 import sarahguarneri.CAPSTONE.services.TicketService;
@@ -30,15 +32,10 @@ public class TicketController {
         return ticketService.findById(id);
     }
 
-//    @GetMapping("/available")
-//    public int getAvailableTicket(){
-//        return ticketService.getAvailableTickets();
-//    }
-
     @PostMapping
-    public NewTicketReponseDTO purchase(@RequestBody @Validated NewTicketDTO body){
+    public NewTicketReponseDTO create(@RequestBody @Validated NewTicketDTO body){
         Ticket newTicket = ticketService.save(body);
-        return new NewTicketReponseDTO(newTicket.getId(), newTicket.getAvailableQuantity());
+        return new NewTicketReponseDTO(newTicket.getId());
     }
 
     @PutMapping("/{id}")
@@ -51,6 +48,17 @@ public class TicketController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public void findAndDelete(@PathVariable UUID id){
         ticketService.findByIdAndDelete(id);
+    }
+
+    @PostMapping("/book")
+    public NewTicketReponseDTO bookTickets(@RequestBody NewTicketDTO body){
+        Ticket newTicket = ticketService.bookTicket(body);
+        return new NewTicketReponseDTO(newTicket.getId());
+    }
+
+    @GetMapping("/availableTickets")
+    public Integer getAvailableTickets(){
+        return ticketService.getAvailableTickets();
     }
 
 }

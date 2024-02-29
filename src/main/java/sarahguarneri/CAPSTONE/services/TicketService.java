@@ -1,5 +1,6 @@
 package sarahguarneri.CAPSTONE.services;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sarahguarneri.CAPSTONE.entities.Role;
@@ -12,9 +13,13 @@ import sarahguarneri.CAPSTONE.repositories.TicketDAO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class TicketService {
+
+    private static final int NUMERO_BIGLIETTI_TOTALI = 100;
+    private AtomicInteger availableTickets = new AtomicInteger(NUMERO_BIGLIETTI_TOTALI);
 
     @Autowired
     private TicketDAO ticketDAO;
@@ -28,32 +33,12 @@ public class TicketService {
 
     public Ticket save(NewTicketDTO body){
         User client = userService.findById(body.clientId());
+        Ticket newticket = new Ticket();
 
-        int availableTicket = 100;
-        int quantityRequested = body.quantity();
+        newticket.setClient(client);
 
-        Ticket newTicket = new Ticket();
-
-        if(quantityRequested > 0 && quantityRequested < availableTicket){
-
-            for(int i = 0; i < quantityRequested; i++) {
-                newTicket.setClient(client);
-                int newAvailableQuantity = availableTicket - quantityRequested;
-                System.out.println(newAvailableQuantity);
-            }
-        } else {
-            throw new RuntimeException();
-        }
-
-        return ticketDAO.save(newTicket);
+        return ticketDAO.save(newticket);
     }
-
-//    public int getAvailableTickets(){
-//        List<Ticket> allTIckets = getAllTicket();
-//        int totalTickets = allTIckets.size();
-//        int soldTickets = allTIckets.stream().mapToInt(Ticket::getSoldTickets).sum();
-//        return totalTickets - soldTickets;
-//    }
 
     public Ticket findById(UUID id){
         return ticketDAO.findById(id).orElseThrow(() -> new NotFoundException(id));
@@ -62,7 +47,6 @@ public class TicketService {
     public Ticket findByIdAndUpdate(UUID id, Ticket body){
         Ticket found = findById(id);
 
-//        found.setMaxTickets(body.getMaxTickets());
         found.setCost(body.getCost());
 
         return ticketDAO.save(found);
@@ -71,5 +55,30 @@ public class TicketService {
     public void findByIdAndDelete(UUID id){
         Ticket found = findById(id);
         ticketDAO.delete(found);
+    }
+
+    @Transactional
+    public Ticket bookTicket(NewTicketDTO body){
+        User client = userService.findById(body.clientId());
+        System.out.println(client);
+        if(body.quantity() > availableTickets.get()){
+            throw new IllegalArgumentException();
+        }
+
+        Ticket createdTicket = null;
+        for(int i = 0; i < body.quantity(); i++){
+            Ticket ticket = new Ticket();
+            ticket.setClient(client);
+            ticketDAO.save(ticket);
+            createdTicket = ticket;
+        }
+        availableTickets.addAndGet(-body.quantity());
+        System.out.println(availableTickets);
+
+        return createdTicket;
+    }
+
+    public int getAvailableTickets(){
+        return availableTickets.get();
     }
 }

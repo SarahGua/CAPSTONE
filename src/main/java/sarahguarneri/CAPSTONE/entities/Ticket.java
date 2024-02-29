@@ -18,7 +18,6 @@ public class Ticket {
     private UUID id;
     private double cost = 30.00;
     private int quantity;
-    private int availableQuantity;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User client;

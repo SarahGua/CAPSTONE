@@ -37,7 +37,7 @@ public class StandController {
         return new NewStandResponseDTO(newStand.getId());
     }
 
-    @PostMapping("/{bookstand}/{standId}")
+    @PostMapping("/bookstand/{standId}")
     public NewStandResponseDTO bookStand(@PathVariable UUID standId, @RequestBody UUID userId){
         Stand standBooked = standService.bookStand(standId, userId);
         return new NewStandResponseDTO(standBooked.getId());
